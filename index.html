@@ -1,0 +1,972 @@
+<!DOCTYPE html>
+<html lang="vi">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Đêm Trung Thu - Lồng Đèn Bay</title>
+  <!-- Favicon cho tất cả trình duyệt -->
+  <link rel="icon" href="favicon_io/favicon.ico" type="image/x-icon">
+  <link rel="shortcut icon" href="favicon_io/favicon.ico" type="image/x-icon">
+
+  <!-- (Tùy chọn) hỗ trợ Apple/iOS -->
+  <link rel="apple-touch-icon" href="favicon_io/favicon.ico">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            overflow-x: hidden;
+            background: #000;
+            position: fixed;
+            width: 100%;
+            height: 100vh;
+            touch-action: pan-y;
+        }
+
+        .bg-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+        }
+
+        .bg-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .stars {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+        }
+
+        .star {
+            position: absolute;
+            background: white;
+            border-radius: 50%;
+            animation: twinkle var(--duration) ease-in-out infinite;
+            animation-delay: var(--delay);
+            box-shadow: 0 0 3px rgba(255, 255, 255, 0.8);
+        }
+
+        .star.small {
+            width: 1.5px;
+            height: 1.5px;
+        }
+
+        .star.medium {
+            width: 2.5px;
+            height: 2.5px;
+        }
+
+        .star.large {
+            width: 3.5px;
+            height: 3.5px;
+        }
+
+        @keyframes twinkle {
+            0%, 100% {
+                opacity: 0.2;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.3);
+            }
+        }
+
+        @keyframes twinkleSlow {
+            0%, 100% {
+                opacity: 0.3;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 0.9;
+                transform: scale(1.2);
+            }
+        }
+
+        @keyframes twinkleFast {
+            0%, 100% {
+                opacity: 0.1;
+                transform: scale(1);
+            }
+            50% {
+                opacity: 1;
+                transform: scale(1.5);
+            }
+        }
+
+        .moon {
+            position: fixed;
+            top: 60px;
+            right: 40px;
+            width: 120px;
+            height: 120px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 30% 30%, #fff9e6, #ffd700);
+            box-shadow:
+                0 0 40px rgba(255, 215, 0, 0.8),
+                0 0 80px rgba(255, 215, 0, 0.6),
+                0 0 120px rgba(255, 215, 0, 0.4),
+                inset -10px -10px 20px rgba(0, 0, 0, 0.1);
+            z-index: 5;
+            animation: moonGlow 3s ease-in-out infinite;
+        }
+
+        @keyframes moonGlow {
+            0%, 100% {
+                box-shadow:
+                    0 0 40px rgba(255, 215, 0, 0.8),
+                    0 0 80px rgba(255, 215, 0, 0.6),
+                    0 0 120px rgba(255, 215, 0, 0.4),
+                    inset -10px -10px 20px rgba(0, 0, 0, 0.1);
+            }
+            50% {
+                box-shadow:
+                    0 0 60px rgba(255, 215, 0, 1),
+                    0 0 100px rgba(255, 215, 0, 0.8),
+                    0 0 160px rgba(255, 215, 0, 0.6),
+                    inset -10px -10px 20px rgba(0, 0, 0, 0.1);
+            }
+        }
+
+        .lantern-container {
+            position: fixed;
+            bottom: -150px;
+            width: 90px;
+            height: 135px;
+            cursor: pointer;
+            transition: transform 0.3s ease, filter 0.3s ease;
+            z-index: 10;
+            filter: drop-shadow(0 5px 15px rgba(255, 200, 0, 0.3));
+        }
+
+        .lantern-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+        }
+
+        .lantern-container:hover {
+            transform: scale(1.2);
+            filter: drop-shadow(0 0 20px rgba(255, 200, 0, 0.8));
+        }
+
+        @keyframes floatUp {
+            0% {
+                transform: translateY(0) scale(0.9);
+                opacity: 0;
+            }
+            3% {
+                opacity: 1;
+                transform: translateY(-3vh) scale(1);
+            }
+            99% {
+                opacity: 1;
+                transform: translateY(-99vh) scale(1);
+            }
+            100% {
+                transform: translateY(-101vh) scale(0.95);
+                opacity: 0;
+            }
+        }
+
+        @keyframes sway {
+            0%, 100% {
+                transform: translateX(0) rotate(0deg);
+            }
+            25% {
+                transform: translateX(10px) rotate(3deg);
+            }
+            75% {
+                transform: translateX(-10px) rotate(-3deg);
+            }
+        }
+
+        .lantern-glow {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 120%;
+            height: 120%;
+            background: radial-gradient(circle, rgba(255, 200, 0, 0.3) 0%, transparent 70%);
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+            animation: glowPulse 2s ease-in-out infinite;
+            pointer-events: none;
+        }
+
+        @keyframes glowPulse {
+            0%, 100% {
+                opacity: 0.4;
+                transform: translate(-50%, -50%) scale(1);
+            }
+            50% {
+                opacity: 0.8;
+                transform: translate(-50%, -50%) scale(1.2);
+            }
+        }
+
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            opacity: 0;
+            visibility: hidden;
+            transition: opacity 0.4s ease, visibility 0.4s ease;
+        }
+
+        .popup-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .popup-content {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            border-radius: 20px;
+            padding: 25px;
+            max-width: 90%;
+            width: 90%;
+            max-height: 85vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            border: 2px solid rgba(255, 200, 0, 0.3);
+            opacity: 0;
+            transform: translateY(30px) scale(0.8);
+            transition: all 0.4s ease;
+        }
+
+        .popup-overlay.active .popup-content {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+            animation: slideInUp 0.5s ease-out;
+        }
+
+        @keyframes slideInUp {
+            0% {
+                transform: translateY(50px) scale(0.9);
+                opacity: 0;
+            }
+            100% {
+                transform: translateY(0) scale(1);
+                opacity: 1;
+            }
+        }
+
+        .popup-img {
+            width: 100%;
+            height: 220px;
+            object-fit: cover;
+            border-radius: 15px;
+            margin-bottom: 18px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .popup-title {
+            font-size: 24px;
+            color: #ffd700;
+            margin-bottom: 12px;
+            text-align: center;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+        }
+
+        .popup-text {
+            font-size: 15px;
+            color: #e0e0e0;
+            line-height: 1.6;
+            margin-bottom: 20px;
+            text-align: justify;
+        }
+
+        .popup-close {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 16px;
+            border-radius: 25px;
+            cursor: pointer;
+            display: block;
+            margin: 0 auto;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+        }
+
+        .popup-close:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 107, 107, 0.6);
+        }
+
+        .popup-close:active {
+            transform: translateY(0);
+        }
+
+        .controls {
+            position: fixed;
+            bottom: 20px;
+            left: 20px;
+            z-index: 100;
+            display: flex;
+            gap: 12px;
+        }
+
+        .control-btn {
+            width: 55px;
+            height: 55px;
+            border-radius: 50%;
+            background: rgba(26, 26, 46, 0.5);
+            border: 2px solid rgba(255, 200, 0, 0.3);
+            color: #ffd700;
+            font-size: 22px;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(8px);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            opacity: 0.7;
+        }
+
+        .control-btn:hover {
+            background: rgba(26, 26, 46, 0.7);
+            border-color: rgba(255, 200, 0, 0.6);
+            transform: scale(1.1);
+            box-shadow: 0 0 20px rgba(255, 200, 0, 0.3);
+            opacity: 1;
+        }
+
+        .control-btn:active {
+            transform: scale(0.95);
+        }
+
+        .control-btn.music-off {
+            color: #999;
+            border-color: rgba(153, 153, 153, 0.3);
+        }
+
+        .control-btn.music-on {
+            color: #ffd700;
+            border-color: rgba(255, 200, 0, 0.5);
+            animation: musicPulse 2s ease-in-out infinite;
+        }
+
+        @keyframes musicPulse {
+            0%, 100% {
+                box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            }
+            50% {
+                box-shadow: 0 0 20px rgba(255, 200, 0, 0.4);
+            }
+        }
+
+        .info-popup {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            display: none;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .info-popup.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .info-content {
+            background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+            border-radius: 20px;
+            padding: 30px;
+            max-width: 90%;
+            width: 400px;
+            max-height: 80vh;
+            overflow-y: auto;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+            transform: scale(0.7);
+            transition: transform 0.3s ease;
+            border: 2px solid rgba(255, 200, 0, 0.3);
+        }
+
+        .info-popup.active .info-content {
+            transform: scale(1);
+            animation: slideInUp 0.5s ease-out;
+        }
+
+        .info-title {
+            font-size: 26px;
+            color: #ffd700;
+            margin-bottom: 20px;
+            text-align: center;
+            font-weight: bold;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.5);
+            animation: fadeIn 0.6s ease-out 0.2s both;
+        }
+
+        .info-text {
+            font-size: 15px;
+            color: #e0e0e0;
+            line-height: 1.8;
+            margin-bottom: 15px;
+            animation: fadeIn 0.6s ease-out 0.4s both;
+        }
+
+        .info-text:nth-child(3) {
+            animation-delay: 0.5s;
+        }
+
+        .info-text:nth-child(4) {
+            animation-delay: 0.6s;
+        }
+
+        .info-text:nth-child(5) {
+            animation-delay: 0.7s;
+        }
+
+        .info-text:nth-child(6) {
+            animation-delay: 0.8s;
+        }
+
+        @keyframes fadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .info-text strong {
+            color: #ffd700;
+        }
+
+        .info-close {
+            background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+            color: white;
+            border: none;
+            padding: 12px 30px;
+            font-size: 16px;
+            border-radius: 25px;
+            cursor: pointer;
+            display: block;
+            margin: 20px auto 0;
+            transition: all 0.3s ease;
+            font-weight: bold;
+            box-shadow: 0 5px 15px rgba(255, 107, 107, 0.4);
+            animation: fadeIn 0.6s ease-out 0.9s both;
+        }
+
+        .info-close:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 20px rgba(255, 107, 107, 0.6);
+        }
+
+        @media (max-width: 768px) {
+            .moon {
+                width: 90px;
+                height: 90px;
+                top: 50px;
+                right: 25px;
+            }
+
+            .lantern-container {
+                width: 75px;
+                height: 112px;
+            }
+
+            .popup-content {
+                padding: 20px;
+            }
+
+            .popup-img {
+                height: 180px;
+            }
+
+            .popup-title {
+                font-size: 20px;
+            }
+
+            .popup-text {
+                font-size: 14px;
+            }
+
+            .controls {
+                bottom: 15px;
+                left: 15px;
+                gap: 10px;
+            }
+
+            .control-btn {
+                width: 50px;
+                height: 50px;
+                font-size: 20px;
+            }
+
+            .info-content {
+                padding: 25px;
+                width: 90%;
+            }
+
+            .info-title {
+                font-size: 22px;
+            }
+
+            .info-text {
+                font-size: 14px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .moon {
+                width: 70px;
+                height: 70px;
+                top: 40px;
+                right: 20px;
+            }
+
+            .lantern-container {
+                width: 65px;
+                height: 98px;
+            }
+
+            .popup-img {
+                height: 160px;
+            }
+
+            .popup-title {
+                font-size: 18px;
+            }
+
+            .popup-text {
+                font-size: 13px;
+            }
+
+            .controls {
+                bottom: 12px;
+                left: 12px;
+                gap: 8px;
+            }
+
+            .control-btn {
+                width: 48px;
+                height: 48px;
+                font-size: 18px;
+            }
+
+            .info-content {
+                padding: 20px;
+            }
+
+            .info-title {
+                font-size: 20px;
+            }
+
+            .info-text {
+                font-size: 13px;
+            }
+        }
+
+        @media (min-aspect-ratio: 9/16) and (max-width: 768px) {
+            body {
+                height: 100vh;
+            }
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: rgba(255, 215, 0, 0.5);
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 215, 0, 0.7);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="controls">
+        <button class="control-btn music-on" id="musicBtn" title="Tắt/Bật nhạc">🔊</button>
+        <button class="control-btn" id="infoBtn" title="Thông tin">ℹ️</button>
+    </div>
+
+    <audio id="bgMusic" loop>
+        <source src="music/background.mp3" type="audio/mpeg">
+    </audio>
+
+    <div class="bg-container">
+        <img src="bg.jpg" alt="Đêm Trung Thu">
+    </div>
+
+    <div class="stars" id="starsContainer"></div>
+
+    <div class="moon"></div>
+
+    <div id="lanternArea"></div>
+
+    <div class="popup-overlay" id="popupOverlay">
+        <div class="popup-content">
+            <img class="popup-img" id="popupImg" src="" alt="">
+            <h2 class="popup-title" id="popupTitle"></h2>
+            <p class="popup-text" id="popupText"></p>
+            <button class="popup-close" id="popupClose">Đóng</button>
+        </div>
+    </div>
+
+    <div class="info-popup" id="infoPopup">
+        <div class="info-content">
+            <h2 class="info-title">🏮 Đêm Trung Thu 🌕</h2>
+            <p class="info-text">
+                <strong>Chào mừng bạn đến với đêm hội trăng rằm!</strong>
+            </p>
+            <p class="info-text">
+                ✨ <strong>Click vào lồng đèn</strong> để khám phá ý nghĩa của từng loại lồng đèn truyền thống.
+            </p>
+            <p class="info-text">
+                🎵 <strong>Nhạc nền:</strong> Nhấn nút 🔊 để bật/tắt nhạc nền Trung Thu nhẹ nhàng.
+            </p>
+            <p class="info-text">
+                🌟 Hãy ngắm nhìn bầu trời đêm với trăng rằm và vô vàn ngôi sao lấp lánh, cùng những chiếc lồng đèn bay
+                lên cao mang theo ước mơ.
+            </p>
+            <p class="info-text">
+                🎑 <strong>Nhân danh dev của trang, chúc bạn và Thuận một mùa Trung Thu an lành, vui vẻ và tràn đầy hạnh phúc bên người thương!</strong>
+            </p>
+            <p class="info-text">
+                - Dev by Nguyễn Nhân -
+            </p>
+            <button class="info-close" id="infoClose">Đóng</button>
+        </div>
+    </div>
+
+    <script>
+        const contentPool = [{
+                title: 'Lồng Đèn Ngôi Sao',
+                infoImg: 'images/info1.jpg',
+                text: 'Lồng đèn ngôi sao là biểu tượng của niềm hy vọng và ước mơ. Trong đêm Trung Thu, ánh sáng từ lồng đèn ngôi sao soi đường cho những ước mơ bay cao, nhắc nhở chúng ta luôn vươn tới những điều tốt đẹp nhất trong cuộc sống.'
+            },
+            {
+                title: 'Lồng Đèn Con Cá',
+                infoImg: 'images/info2.jpg',
+                text: 'Hình tượng con cá trong lồng đèn tượng trưng cho sự sung túc, may mắn và thịnh vượng. Người xưa tin rằng thả lồng đèn cá trong đêm Trung Thu sẽ mang lại một năm đầy đủ và hạnh phúc cho gia đình.'
+            },
+            {
+                title: 'Lồng Đèn Cung Đình',
+                infoImg: 'images/info3.jpg',
+                text: 'Lồng đèn cung đình mang vẻ đẹp trang nhã và quý phái, được lấy cảm hứng từ những chiếc đèn lồng trong hoàng cung xưa. Những họa tiết tinh xảo trên lồng đèn thể hiện sự khéo léo và tâm huyết của người thợ thủ công.'
+            },
+            {
+                title: 'Lồng Đèn Mặt Trời',
+                infoImg: 'images/info4.jpg',
+                text: 'Lồng đèn mặt trời tượng trưng cho ánh sáng, sự ấm áp và nguồn năng lượng tích cực. Trong đêm Trung Thu, khi mặt trăng tròn sáng, lồng đèn mặt trời nhắc nhở ta về sự cân bằng giữa âm và dương trong vũ trụ.'
+            },
+            {
+                title: 'Lồng Đèn Truyền Thống',
+                infoImg: 'images/info5.jpg',
+                text: 'Lồng đèn truyền thống mang đậm nét văn hóa dân gian, được làm từ giấy bồi và tre. Đây là món đồ chơi gắn liền với tuổi thơ của nhiều thế hệ người Việt, gợi nhớ về những buổi rước đèn đầy tiếng cười giòn tan.'
+            },
+            {
+                title: 'Lồng Đèn Bướm',
+                infoImg: 'images/info6.jpg',
+                text: 'Lồng đèn hình bướm biểu tượng cho sự biến đổi và vẻ đẹp nhẹ nhàng. Trong văn hóa phương Đông, bướm còn đại diện cho tình yêu đôi lứa và hạnh phúc gia đình, khiến nó trở thành món quà ý nghĩa trong dịp Trung Thu.'
+            },
+            {
+                title: 'Lồng Đèn Rồng',
+                infoImg: 'images/info7.jpg',
+                text: 'Rồng là linh vật thiêng trong văn hóa Á Đông, tượng trưng cho quyền lực, sức mạnh và may mắn. Lồng đèn rồng thường được treo cao nhất, mang ý nghĩa cầu mong một năm thịnh vượng và thuận buồm xuôi gió.'
+            },
+            {
+                title: 'Lồng Đèn Thỏ Ngọc',
+                infoImg: 'images/info8.jpg',
+                text: 'Theo truyền thuyết, trên cung trăng có Thỏ Ngọc đang giã thuốc trường sinh. Lồng đèn hình thỏ trong Tết Trung Thu là để tưởng nhớ người bạn nhỏ đáng yêu này, mang đến niềm vui cho trẻ em.'
+            },
+            {
+                title: 'Lồng Đèn Hoa Sen',
+                infoImg: 'images/info9.jpg',
+                text: 'Hoa sen tượng trưng cho sự thanh cao, thuần khiết và giác ngộ. Lồng đèn hình hoa sen nhắc nhở con người giữ gìn tâm hồn trong sáng, vượt qua mọi khó khăn để nở rộ như đóa sen.'
+            },
+            {
+                title: 'Lồng Đèn Phượng Hoàng',
+                infoImg: 'images/info10.jpg',
+                text: 'Phượng hoàng là chim thần trong thần thoại, biểu tượng của sự tái sinh, hạnh phúc và thịnh vượng. Lồng đèn phượng hoàng mang ý nghĩa cầu chúc cho một khởi đầu mới tràn đầy năng lượng và may mắn.'
+            }
+        ];
+
+        const lanternImages = [
+            'lanterns/lantern1.png',
+            'lanterns/lantern2.png'
+        ];
+
+        const TOTAL_LANTERNS = 15;
+        const TOTAL_STARS = 100;
+
+        const lanternArea = document.getElementById('lanternArea');
+        const starsContainer = document.getElementById('starsContainer');
+        const popupOverlay = document.getElementById('popupOverlay');
+        const popupImg = document.getElementById('popupImg');
+        const popupTitle = document.getElementById('popupTitle');
+        const popupText = document.getElementById('popupText');
+        const popupClose = document.getElementById('popupClose');
+
+        const bgMusic = document.getElementById('bgMusic');
+        const musicBtn = document.getElementById('musicBtn');
+        const infoBtn = document.getElementById('infoBtn');
+        const infoPopup = document.getElementById('infoPopup');
+        const infoClose = document.getElementById('infoClose');
+
+        let isMusicPlaying = true;
+        let fadeInterval = null;
+        
+        // Fade in khi trang load
+        bgMusic.volume = 0;
+        bgMusic.play().then(function() {
+            fadeIn(bgMusic);
+        }).catch(function(err) {
+            console.log('Autoplay bị chặn, chờ tương tác người dùng');
+            isMusicPlaying = false;
+            musicBtn.textContent = '🔇';
+            musicBtn.classList.remove('music-on');
+            musicBtn.classList.add('music-off');
+        });
+
+        function fadeOut(audio, callback) {
+            if (fadeInterval) clearInterval(fadeInterval);
+            
+            fadeInterval = setInterval(function() {
+                if (audio.volume > 0.05) {
+                    audio.volume = Math.max(0, audio.volume - 0.05);
+                } else {
+                    audio.volume = 0;
+                    clearInterval(fadeInterval);
+                    audio.pause();
+                    if (callback) callback();
+                }
+            }, 50);
+        }
+
+        function fadeIn(audio) {
+            if (fadeInterval) clearInterval(fadeInterval);
+            
+            audio.volume = 0;
+            audio.play().catch(function(err) {
+                console.log('Không thể phát nhạc:', err);
+            });
+            
+            fadeInterval = setInterval(function() {
+                if (audio.volume < 0.95) {
+                    audio.volume = Math.min(1, audio.volume + 0.05);
+                } else {
+                    audio.volume = 1;
+                    clearInterval(fadeInterval);
+                }
+            }, 50);
+        }
+
+        musicBtn.addEventListener('click', function () {
+            if (isMusicPlaying) {
+                fadeOut(bgMusic, function() {
+                    musicBtn.textContent = '🔇';
+                    musicBtn.classList.remove('music-on');
+                    musicBtn.classList.add('music-off');
+                    isMusicPlaying = false;
+                });
+            } else {
+                fadeIn(bgMusic);
+                musicBtn.textContent = '🔊';
+                musicBtn.classList.remove('music-off');
+                musicBtn.classList.add('music-on');
+                isMusicPlaying = true;
+            }
+        });
+
+        infoBtn.addEventListener('click', function () {
+            infoPopup.classList.add('active');
+        });
+
+        infoClose.addEventListener('click', function () {
+            infoPopup.classList.remove('active');
+        });
+
+        infoPopup.addEventListener('click', function (e) {
+            if (e.target === infoPopup) {
+                infoPopup.classList.remove('active');
+            }
+        });
+
+        document.addEventListener('click', function (e) {
+            if (!isMusicPlaying && e.target !== musicBtn) {
+                fadeIn(bgMusic);
+                musicBtn.textContent = '🔊';
+                musicBtn.classList.remove('music-off');
+                musicBtn.classList.add('music-on');
+                isMusicPlaying = true;
+            }
+        }, {
+            once: true
+        });
+
+        function createStars() {
+            const sizes = ['small', 'medium', 'large'];
+            const animations = ['twinkle', 'twinkleSlow', 'twinkleFast'];
+
+            for (let i = 0; i < TOTAL_STARS; i++) {
+                const star = document.createElement('div');
+                star.className = 'star ' + sizes[Math.floor(Math.random() * sizes.length)];
+
+                const top = Math.random() * 70;
+                const left = Math.random() * 100;
+                const duration = 2 + Math.random() * 4;
+                const delay = Math.random() * 5;
+
+                star.style.top = top + '%';
+                star.style.left = left + '%';
+                star.style.setProperty('--duration', duration + 's');
+                star.style.setProperty('--delay', delay + 's');
+
+                const animationType = animations[Math.floor(Math.random() * animations.length)];
+                star.style.animation = animationType + ' ' + duration + 's ease-in-out infinite';
+                star.style.animationDelay = delay + 's';
+
+                starsContainer.appendChild(star);
+            }
+        }
+
+        function getRandomContent() {
+            return contentPool[Math.floor(Math.random() * contentPool.length)];
+        }
+
+        function getRandomImage() {
+            return lanternImages[Math.floor(Math.random() * lanternImages.length)];
+        }
+
+        function getDistributedPosition(index, total) {
+            const positions = [];
+
+            for (let i = 0; i < total; i++) {
+                const pos = 5 + (i * 90 / total);
+                positions.push(pos);
+            }
+
+            const shuffled = [];
+            const positionsCopy = positions.slice();
+
+            while (positionsCopy.length > 0) {
+                const randomIndex = Math.floor(Math.random() * positionsCopy.length);
+                shuffled.push(positionsCopy[randomIndex]);
+                positionsCopy.splice(randomIndex, 1);
+            }
+
+            return shuffled[index];
+        }
+
+        function createLantern(index) {
+            const lantern = document.createElement('div');
+            lantern.className = 'lantern-container';
+
+            const content = getRandomContent();
+            const imageSrc = getRandomImage();
+
+            const leftPos = getDistributedPosition(index, TOTAL_LANTERNS);
+            const duration = 15 + Math.random() * 6;
+
+            const delayPattern = [0, -3, -6, -1.5, -4.5, -7.5, -2, -5, -8, -2.5, -5.5, -8.5, -1, -4, -7];
+            const delay = delayPattern[index % delayPattern.length];
+
+            lantern.style.left = leftPos + '%';
+            lantern.style.animation = 'floatUp ' + duration + 's linear infinite';
+            lantern.style.animationDelay = delay + 's';
+
+            const glow = document.createElement('div');
+            glow.className = 'lantern-glow';
+            lantern.appendChild(glow);
+
+            const img = document.createElement('img');
+            img.src = imageSrc;
+            img.alt = content.title;
+
+            lantern.appendChild(img);
+
+            lantern.addEventListener('click', function (e) {
+                e.stopPropagation();
+                showPopup(content);
+            });
+
+            lanternArea.appendChild(lantern);
+        }
+
+        function showPopup(data) {
+            popupImg.src = data.infoImg;
+            popupTitle.textContent = data.title;
+            popupText.textContent = data.text;
+            popupOverlay.classList.add('active');
+        }
+
+        function hidePopup() {
+            popupOverlay.classList.remove('active');
+        }
+
+        popupClose.addEventListener('click', hidePopup);
+
+        popupOverlay.addEventListener('click', function (e) {
+            if (e.target === popupOverlay) {
+                hidePopup();
+            }
+        });
+
+        document.addEventListener('keydown', function (e) {
+            if (e.key === 'Escape') {
+                hidePopup();
+                if (infoPopup.classList.contains('active')) {
+                    infoPopup.classList.remove('active');
+                }
+            }
+        });
+
+        createStars();
+
+        for (let i = 0; i < TOTAL_LANTERNS; i++) {
+            createLantern(i);
+        }
+    </script>
+</body>
+
+</html>
