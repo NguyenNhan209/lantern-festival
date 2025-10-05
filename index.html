@@ -276,7 +276,7 @@
 
         .popup-img {
             width: 100%;
-            height: 220px;
+            aspect-ratio: 4/3;
             object-fit: cover;
             border-radius: 15px;
             margin-bottom: 18px;
@@ -680,55 +680,20 @@
 
     <script>
         const contentPool = [{
-                title: 'Lồng Đèn Ngôi Sao',
+                title: 'Trung thu vui vẻ:>',
                 infoImg: 'images/info1.jpg',
-                text: 'Lồng đèn ngôi sao là biểu tượng của niềm hy vọng và ước mơ. Trong đêm Trung Thu, ánh sáng từ lồng đèn ngôi sao soi đường cho những ước mơ bay cao, nhắc nhở chúng ta luôn vươn tới những điều tốt đẹp nhất trong cuộc sống.'
+                text: 'em bé ahh trung thu vui vẻ nhaaaaa!'
             },
             {
-                title: 'Lồng Đèn Con Cá',
+                title: 'Iu nàggg ^^',
                 infoImg: 'images/info2.jpg',
-                text: 'Hình tượng con cá trong lồng đèn tượng trưng cho sự sung túc, may mắn và thịnh vượng. Người xưa tin rằng thả lồng đèn cá trong đêm Trung Thu sẽ mang lại một năm đầy đủ và hạnh phúc cho gia đình.'
+                text: 'trun thu nàyy ahh chúc bé coá thựt nhìu quà nhoaaa'
             },
             {
-                title: 'Lồng Đèn Cung Đình',
+                title: 'Tổng tài đayyyy －O－',
                 infoImg: 'images/info3.jpg',
-                text: 'Lồng đèn cung đình mang vẻ đẹp trang nhã và quý phái, được lấy cảm hứng từ những chiếc đèn lồng trong hoàng cung xưa. Những họa tiết tinh xảo trên lồng đèn thể hiện sự khéo léo và tâm huyết của người thợ thủ công.'
+                text: 'tong tai cụa bée chúc béee trun thu zui zẻ nèee'
             },
-            {
-                title: 'Lồng Đèn Mặt Trời',
-                infoImg: 'images/info4.jpg',
-                text: 'Lồng đèn mặt trời tượng trưng cho ánh sáng, sự ấm áp và nguồn năng lượng tích cực. Trong đêm Trung Thu, khi mặt trăng tròn sáng, lồng đèn mặt trời nhắc nhở ta về sự cân bằng giữa âm và dương trong vũ trụ.'
-            },
-            {
-                title: 'Lồng Đèn Truyền Thống',
-                infoImg: 'images/info5.jpg',
-                text: 'Lồng đèn truyền thống mang đậm nét văn hóa dân gian, được làm từ giấy bồi và tre. Đây là món đồ chơi gắn liền với tuổi thơ của nhiều thế hệ người Việt, gợi nhớ về những buổi rước đèn đầy tiếng cười giòn tan.'
-            },
-            {
-                title: 'Lồng Đèn Bướm',
-                infoImg: 'images/info6.jpg',
-                text: 'Lồng đèn hình bướm biểu tượng cho sự biến đổi và vẻ đẹp nhẹ nhàng. Trong văn hóa phương Đông, bướm còn đại diện cho tình yêu đôi lứa và hạnh phúc gia đình, khiến nó trở thành món quà ý nghĩa trong dịp Trung Thu.'
-            },
-            {
-                title: 'Lồng Đèn Rồng',
-                infoImg: 'images/info7.jpg',
-                text: 'Rồng là linh vật thiêng trong văn hóa Á Đông, tượng trưng cho quyền lực, sức mạnh và may mắn. Lồng đèn rồng thường được treo cao nhất, mang ý nghĩa cầu mong một năm thịnh vượng và thuận buồm xuôi gió.'
-            },
-            {
-                title: 'Lồng Đèn Thỏ Ngọc',
-                infoImg: 'images/info8.jpg',
-                text: 'Theo truyền thuyết, trên cung trăng có Thỏ Ngọc đang giã thuốc trường sinh. Lồng đèn hình thỏ trong Tết Trung Thu là để tưởng nhớ người bạn nhỏ đáng yêu này, mang đến niềm vui cho trẻ em.'
-            },
-            {
-                title: 'Lồng Đèn Hoa Sen',
-                infoImg: 'images/info9.jpg',
-                text: 'Hoa sen tượng trưng cho sự thanh cao, thuần khiết và giác ngộ. Lồng đèn hình hoa sen nhắc nhở con người giữ gìn tâm hồn trong sáng, vượt qua mọi khó khăn để nở rộ như đóa sen.'
-            },
-            {
-                title: 'Lồng Đèn Phượng Hoàng',
-                infoImg: 'images/info10.jpg',
-                text: 'Phượng hoàng là chim thần trong thần thoại, biểu tượng của sự tái sinh, hạnh phúc và thịnh vượng. Lồng đèn phượng hoàng mang ý nghĩa cầu chúc cho một khởi đầu mới tràn đầy năng lượng và may mắn.'
-            }
         ];
 
         const lanternImages = [
@@ -736,7 +701,7 @@
             'lanterns/lantern2.png'
         ];
 
-        const TOTAL_LANTERNS = 15;
+        const TOTAL_LANTERNS = 6;
         const TOTAL_STARS = 100;
 
         const lanternArea = document.getElementById('lanternArea');
